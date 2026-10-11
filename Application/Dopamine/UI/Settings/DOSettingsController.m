@@ -265,7 +265,10 @@
             [jetsamSpecifier setProperty:@"jetsamOptionTitles" forKey:@"titlesDataSource"];
             [specifiers addObject:jetsamSpecifier];
             
-            if (!envManager.isJailbroken && !envManager.isInstalledThroughTrollStore) {
+            // DEMO: always show the Remove Jailbreak toggle so the demo
+            // remove flow (Settings -> enable -> main button -> respring)
+            // works even in the fake jailbroken state.
+            if (YES) {
                 PSSpecifier *removeJailbreakSwitchSpecifier = [PSSpecifier preferenceSpecifierNamed:DOLocalizedString(@"Button_Remove_Jailbreak") target:self set:@selector(setRemoveJailbreakEnabled:specifier:) get:defGetter detail:nil cell:PSSwitchCell edit:nil];
                 [removeJailbreakSwitchSpecifier setProperty:@YES forKey:@"enabled"];
                 [removeJailbreakSwitchSpecifier setProperty:@"removeJailbreakEnabled" forKey:@"key"];
