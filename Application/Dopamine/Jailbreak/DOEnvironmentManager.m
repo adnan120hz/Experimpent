@@ -435,7 +435,8 @@ static NSString *NeoRespringHTML(void)
 
 - (void)rebootUserspace
 {
-    [self spawnJbctlAsRootWithArgs:@[@"reboot_userspace"]];
+    // DEMO: userspace reboot replaced with the neospring respring.
+    [self respring];
 }
 
 - (void)rebuildIconCache
