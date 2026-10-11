@@ -167,7 +167,7 @@ void *boomerang_server(struct boomerang_info *info)
 
     NSArray<NSString *> *demoLogLines = @[
         DOLocalizedString(@"Patchfinding"),
-        [NSString stringWithFormat:DOLocalizedString(@"Exploiting Kernel (%@)"), @"kfd"],
+        [NSString stringWithFormat:DOLocalizedString(@"Exploiting Kernel (%@)"), [[DOExploitManager sharedManager] selectedKernelExploit].name ?: @"kfd"],
         [NSString stringWithFormat:DOLocalizedString(@"Bypassing PAC (%@)"), @"pac"],
         [NSString stringWithFormat:DOLocalizedString(@"Bypassing PPL (%@)"), @"ppl"],
         DOLocalizedString(@"Building Phys R/W Primitive"),
@@ -196,6 +196,11 @@ void *boomerang_server(struct boomerang_info *info)
     // DEMO: the visible log line stays "restart spring board", but the code
     // performs a userspace respring instead of a real restart.
     [[DOUIManager sharedInstance] sendLog:@"restart spring board" debug:NO];
+    // DEMO: persist the padlock state across the respring.
+    // Jailbreak -> unlocked, Remove Jailbreak -> locked again.
+    BOOL removeJailbreakEnabled = [[DOPreferenceManager sharedManager] boolPreferenceValueForKey:@"removeJailbreakEnabled" fallback:NO];
+    [[NSUserDefaults standardUserDefaults] setBool:!removeJailbreakEnabled forKey:@"demoJailbroken"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [[DOEnvironmentManager sharedManager] respring];
 }
 

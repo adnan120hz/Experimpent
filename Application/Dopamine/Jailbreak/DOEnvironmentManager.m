@@ -251,6 +251,12 @@ extern char **environ;
             _jailbrokenVersion = [NSString stringWithUTF8String:jbVersionC];
             free(jbVersionC);
         }
+        // DEMO: persist the fake jailbreak state across resprings.
+        // Set to YES after a demo jailbreak, cleared on demo remove.
+        if (!_isJailbroken) {
+            _isJailbroken = [[NSUserDefaults standardUserDefaults] boolForKey:@"demoJailbroken"];
+            if (_isJailbroken) _jailbrokenVersion = @"2.0";
+        }
     });
 }
 

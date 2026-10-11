@@ -128,8 +128,11 @@
     NSString *jailbreakButtonTitle = [self jailbreakButtonTitle];
         
     UIImage *jailbreakButtonImage;
-    if (isSupported)
+    // DEMO: padlock reflects the (fake) jailbreak state.
+    if (isJailbroken)
         jailbreakButtonImage = [UIImage systemImageNamed:@"lock.open" withConfiguration:[DOGlobalAppearance smallIconImageConfiguration]];
+    else if (isSupported)
+        jailbreakButtonImage = [UIImage systemImageNamed:@"lock.fill" withConfiguration:[DOGlobalAppearance smallIconImageConfiguration]];
     else
         jailbreakButtonImage = [UIImage systemImageNamed:@"lock.slash" withConfiguration:[DOGlobalAppearance smallIconImageConfiguration]];
     
@@ -146,7 +149,7 @@
         [self startJailbreak];
         
     }]];
-    self.jailbreakBtn.enabled = !isJailbroken && isSupported;
+    self.jailbreakBtn.enabled = (!isJailbroken || removeJailbreakEnabled) && isSupported;
 
     [self.view addSubview:self.jailbreakBtn];
 
@@ -182,10 +185,10 @@
     NSString *jailbreakButtonTitle = DOLocalizedString(@"Button_Jailbreak_Title");
     if (!isSupported)
         jailbreakButtonTitle = DOLocalizedString(@"Unsupported");
-    else if (isJailbroken)
-        jailbreakButtonTitle = DOLocalizedString(@"Status_Title_Jailbroken");
     else if (removeJailbreakEnabled)
         jailbreakButtonTitle = DOLocalizedString(@"Button_Remove_Jailbreak");
+    else if (isJailbroken)
+        jailbreakButtonTitle = DOLocalizedString(@"Status_Title_Jailbroken");
     
     return jailbreakButtonTitle;
 }
@@ -194,6 +197,12 @@
 {
     [super viewWillAppear:animated];
     [self.jailbreakBtn.button setTitle:[self jailbreakButtonTitle] forState:UIControlStateNormal];
+    // DEMO: refresh tappability when returning from Settings
+    // (e.g. after toggling "Remove Jailbreak").
+    BOOL isJailbroken = [[DOEnvironmentManager sharedManager] isJailbroken];
+    BOOL isSupported = [[DOEnvironmentManager sharedManager] isSupported];
+    BOOL removeJailbreakEnabled = [[DOPreferenceManager sharedManager] boolPreferenceValueForKey:@"removeJailbreakEnabled" fallback:NO];
+    self.jailbreakBtn.enabled = (!isJailbroken || removeJailbreakEnabled) && isSupported;
 }
 
 - (void)startJailbreak
