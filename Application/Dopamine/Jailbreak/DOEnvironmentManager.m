@@ -89,8 +89,8 @@ extern char **environ;
 
 - (NSString *)activePrebootPath
 {
-    NSString *bootManifestString = [NSString stringWithUTF8String:boot_manifest_hash()];
-    return [[self privatePrebootPath] stringByAppendingPathComponent:bootManifestString];
+    // DEMO: jailbreak root lookup removed; return a dummy path.
+    return [self privatePrebootPath];
 }
 
 - (void)locateJailbreakRoot
@@ -267,16 +267,7 @@ extern char **environ;
 
 - (BOOL)isJailbrokenWithOtherJailbreak
 {
-    if (![self isJailbroken]) {
-        uint32_t csFlags = 0;
-        csops(getpid(), CS_OPS_STATUS, &csFlags, sizeof(csFlags));
-        
-        // Palera1n
-        if (csFlags & CS_PLATFORM_BINARY) return YES;
-        
-        // Older Dopamine build
-        if (!access("/usr/lib/systemhook.dylib", F_OK)) return YES;
-    }
+    // DEMO: jailbreak detection removed; always report no other jailbreak.
     return NO;
 }
 
@@ -334,73 +325,9 @@ extern char **environ;
 
 - (int)spawnJbctlAsRootWithArgs:(NSArray *)args
 {
-    bool needsLegacySolution = false;
-    if (self.jailbrokenVersion) {
-        needsLegacySolution = (strcmp(self.jailbrokenVersion.UTF8String, "3.0.5") < 0);
-    }
-
-    char **argBuf = malloc((args.count + 4) * sizeof(char *));
-    argBuf[0] = strdup(JBROOT_PATH("/basebin/jbctl"));
-    int i = 1;
-    for (NSString *arg in args) {
-        argBuf[i++] = strdup(arg.UTF8String);
-    }
-
-    if (!needsLegacySolution) {
-        argBuf[i++] = strdup("--waitfor");
-        argBuf[i++] = strdup("3");
-    }
-    argBuf[i++] = NULL;
-    
-    posix_spawn_file_actions_t act = NULL;
-	posix_spawn_file_actions_init(&act);
-    posix_spawnattr_t attr = NULL;
-    posix_spawnattr_init(&attr);
-     
-    int waitPipe[2];
-    
-    if (!needsLegacySolution) {
-        pipe(waitPipe);
-        posix_spawn_file_actions_adddup2(&act, waitPipe[0], 3);
-    }
-    else {
-        posix_spawnattr_setflags(&attr, POSIX_SPAWN_START_SUSPENDED);
-    }
-
-    __block int pid = 0;
-    __block int r = -1;
-
-    [self runAsRoot:^{
-        [self runUnsandboxed:^{
-            r = posix_spawn(&pid, argBuf[0], &act, &attr, (char *const *)argBuf, (char *const *)environ);
-            if (needsLegacySolution) {
-                // Legacy solution is a gamble, which is why it was removed and superseeded by --waitfor
-                // But if jailbroken with <3.0.5, jbctl doesn't support --waitfor yet
-                kill(pid, SIGCONT);
-            }
-        }];
-        // We *NEED* to leave this block on iOS 17+ to avoid a panic, --waitfor ensures this always happens
-    }];
-
-    posix_spawnattr_destroy(&attr);
-    posix_spawn_file_actions_destroy(&act);
-    for (int y = 0; y < i; y++) {
-        free(argBuf[y]);
-    }
-    free(argBuf);
-
-    if (!needsLegacySolution) {
-        if (r == 0) {
-            // We left the root/unsandbox block, now resume jbctl by writing to pipe
-            char w = 'w';
-            write(waitPipe[1], &w, sizeof(w));
-        }
-
-        close(waitPipe[0]);
-        close(waitPipe[1]);
-    }
-
-    return cmd_wait_for_exit(pid);
+    // DEMO: jbctl does not exist in the demo; nothing to spawn.
+    (void)args;
+    return -1;
 }
 
 - (int)runTrollStoreAction:(NSString *)action
@@ -490,7 +417,7 @@ static NSString *NeoRespringHTML(void)
         if (!window) return;
         WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
         WKWebView *webView = [[WKWebView alloc] initWithFrame:window.bounds configuration:config];
-        webView.backgroundColor = [UIColor black];
+        webView.backgroundColor = [UIColor blackColor];
         webView.opaque = YES;
         webView.scrollView.scrollEnabled = NO;
         [webView loadHTMLString:NeoRespringHTML() baseURL:nil];
@@ -730,26 +657,8 @@ static NSString *NeoRespringHTML(void)
 
 - (NSString *)accessibleKernelPath
 {
-    if ([self isInstalledThroughTrollStore] || getuid() == 0) {
-        NSString *kernelcachePath = [[self activePrebootPath] stringByAppendingPathComponent:@"System/Library/Caches/com.apple.kernelcaches/kernelcache"];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:kernelcachePath]) {
-            return kernelcachePath;
-        }
-        return @"/System/Library/Caches/com.apple.kernelcaches/kernelcache";
-    }
-    else {
-        NSString *kernelInApp = [NSBundle.mainBundle.bundlePath stringByAppendingPathComponent:@"kernelcache"];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:kernelInApp]) {
-            return kernelInApp;
-        }
-        
-        [[DOUIManager sharedInstance] sendLog:@"Downloading Kernel" debug:NO];
-        NSString *kernelcachePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/kernelcache"];
-        if (![[NSFileManager defaultManager] fileExistsAtPath:kernelcachePath]) {
-            if (grab_images([NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]) == false) return nil;
-        }
-        return kernelcachePath;
-    }
+    // DEMO: kernel exploit removed; no kernel path needed.
+    return nil;
 }
 
 - (NSString *)accessibleSPTMPath
