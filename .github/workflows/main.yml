@@ -57,6 +57,17 @@ jobs:
           echo "ctimestamp=${TS}" >> $GITHUB_ENV
           echo "shorthash=${SHASH}" >> $GITHUB_ENV
 
+      - name: Prepare BaseBin headers (.include)
+        run: |
+          set -x
+          rm -rf BaseBin/.include
+          mkdir -p BaseBin/.include
+          cp -r BaseBin/_external/include/* BaseBin/.include/
+          # SDK iOS 17.4+ already ships XPC: drop the vendored copy
+          # (same as BaseBin/Makefile .include target) to avoid
+          # "Redefinition of module 'XPC'"
+          rm -rf BaseBin/.include/xpc
+
       - name: Build
         run: |
           set -x
