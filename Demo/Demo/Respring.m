@@ -4,6 +4,9 @@
 #import <WebKit/WebKit.h>
 #include <spawn.h>
 
+// environ is not declared by default on iOS SDK headers
+extern char **environ;
+
 @implementation Respring
 
 // neospring respring (rooootdev/neospring): extreme GPU/memory pressure
