@@ -15,7 +15,7 @@
 #import "DOLogCrashViewController.h"
 #import <pthread.h>
 #import <sys/sysctl.h>
-#import <libjailbreak/libjailbreak.h>
+#import "../Jailbreak/DOJBClientStubs.h"
 
 @interface DOMainViewController ()
 

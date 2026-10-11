@@ -9,9 +9,7 @@
 #import "DOBootstrapper+zstd.h"
 #import "DOEnvironmentManager.h"
 #import "DOUIManager.h"
-#import <libjailbreak/info.h>
-#import <libjailbreak/util.h>
-#import <libjailbreak/jbclient_xpc.h>
+#import "DOJBClientStubs.h"
 #import <sys/mount.h>
 #import <dlfcn.h>
 #import <sys/stat.h>

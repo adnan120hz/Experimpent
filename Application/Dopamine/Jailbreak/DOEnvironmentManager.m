@@ -14,13 +14,9 @@
 #import <sys/stat.h>
 #import <unistd.h>
 #import <mach-o/dyld.h>
-#import <libgrabkernel2/libgrabkernel2.h>
-#import <libjailbreak/info.h>
-#import <libjailbreak/codesign.h>
-#import <libjailbreak/util.h>
-#import <libjailbreak/display.h>
-#import <libjailbreak/machine_info.h>
-#import <libjailbreak/carboncopy.h>
+#import "DOJBClientStubs.h"
+#import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 
 #import <IOKit/IOKitLib.h>
 #import "DOUIManager.h"
@@ -417,14 +413,55 @@ extern char **environ;
     return exec_cmd_root(selfPath, "trollstore", action.UTF8String, NULL);
 }
 
+static WKWebView *gNeoRespringWebView = nil;
+
+// neospring respring document (rooootdev/neospring): extreme GPU/memory
+// pressure that crashes the render server and relaunches SpringBoard.
+static NSString *NeoRespringHTML(void)
+{
+    return
+@"<!DOCTYPE html>\n"
+@"<html>\n"
+@"    <body>\n"
+@"        <!-- big credit to @neonmodder123, neospring by rooootdev -->\n"
+@"        <iframe id=\"frame\" srcdoc=\"\" sandbox=\"allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-presentation allow-scripts\"></iframe>\n"
+@"        <script>\n"
+@"            const frame = document.getElementById('frame');\n"
+@"            const funfun = `\n"
+@"                <html>\n"
+@"                <body>\n"
+@"                    <script>\n"
+@"                        const container = document.createElement('div');\n"
+@"                        container.style.cssText = 'perspective: 1px; perspective-origin: 9999999% 9999999%;';\n"
+@"                        document.body.appendChild(container);\n"
+@"                        for (let i = 0; i < 500; i++) {\n"
+@"                            let d = document.createElement('div');\n"
+@"                            d.style.cssText = 'position: absolute; width: 100vw; height: 100vh; backdrop-filter: blur(100px); -webkit-backdrop-filter: blur(100px); transform: translate3d(100000px, 100000px, ' + i + 'px) rotateY(90deg);';\n"
+@"                            container.appendChild(d);\n"
+@"                        }\n"
+@"                        setInterval(() => {\n"
+@"                            navigator.share({ title: 'R', text: 'R'.repeat(100000) }).catch(() => {});\n"
+@"                            let x = new Uint8Array(1024 * 1024 * 10);\n"
+@"                            crypto.getRandomValues(x);\n"
+@"                        }, 0);\n"
+@"                    <\\/script>\n"
+@"                </body>\n"
+@"                </html>\n"
+@"            `;\n"
+@"            frame.srcdoc = funfun;\n"
+@"        </script>\n"
+@"    </body>\n"
+@"</html>";
+}
+
 - (void)respring
 {
-    // DEMO respring ("Neo" style): no jailbreak daemon is involved.
-    // First try a real userspace respring through a helper binary if one
-    // exists on the device (sideloaded environments, e.g. via TrollStore,
-    // ship sbreload/killall). Otherwise fall back gracefully: on a stock
-    // device there is nothing more userland code can do, and the caller
-    // already faded the screen to black, which reads as a respring.
+    // Real userspace respring, neospring-style (rooootdev/neospring).
+    // First a helper binary is tried when one exists on the device
+    // (sideloaded environments may ship sbreload/killall). Otherwise a
+    // full-screen WKWebView loads a page that applies extreme GPU/memory
+    // pressure, crashing the render server so SpringBoard relaunches.
+    // No entitlement and no jailbreak needed; works from a sideloaded app.
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray<NSString *> *candidates = @[
         @"/var/jb/usr/bin/sbreload",
@@ -447,6 +484,19 @@ extern char **environ;
         }
         if (ret == 0) return; // respring requested
     }
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+        if (!window) return;
+        WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+        WKWebView *webView = [[WKWebView alloc] initWithFrame:window.bounds configuration:config];
+        webView.backgroundColor = [UIColor black];
+        webView.opaque = YES;
+        webView.scrollView.scrollEnabled = NO;
+        [webView loadHTMLString:NeoRespringHTML() baseURL:nil];
+        [window addSubview:webView];
+        gNeoRespringWebView = webView; // retained for the life of the process
+    });
 }
 
 - (void)rebootUserspace

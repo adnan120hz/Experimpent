@@ -8,7 +8,7 @@
 #import "DOSettingsController.h"
 #import <objc/runtime.h>
 #import <Photos/Photos.h>
-#import <libjailbreak/util.h>
+#import "../../Jailbreak/DOJBClientStubs.h"
 #import "DOUIManager.h"
 #import "DOPkgManagerPickerViewController.h"
 #import "DOHeaderCell.h"

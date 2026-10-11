@@ -9,8 +9,6 @@
 #import "DOAppDelegate.h"
 
 #import "DOEnvironmentManager.h"
-#import <libjailbreak/info.h>
-#import <libjailbreak/jbclient_xpc.h>
 
 int main(int argc, char * argv[]) {
     if (argc >= 3) {
