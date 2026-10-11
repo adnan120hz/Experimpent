@@ -13,6 +13,7 @@
 #import <sys/utsname.h>
 #import <sys/stat.h>
 #import <unistd.h>
+#include <spawn.h>
 #import <mach-o/dyld.h>
 #import "DOJBClientStubs.h"
 #import <UIKit/UIKit.h>
