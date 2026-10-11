@@ -149,7 +149,8 @@
         [self startJailbreak];
         
     }]];
-    self.jailbreakBtn.enabled = (!isJailbroken || removeJailbreakEnabled) && isSupported;
+    BOOL removeJbEnabled = [[DOPreferenceManager sharedManager] boolPreferenceValueForKey:@"removeJailbreakEnabled" fallback:NO];
+    self.jailbreakBtn.enabled = (!isJailbroken || removeJbEnabled) && isSupported;
 
     [self.view addSubview:self.jailbreakBtn];
 
