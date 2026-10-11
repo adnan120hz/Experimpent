@@ -27,7 +27,7 @@ jobs:
       - name: Build Demo app
         run: |
           cd Demo
-          xcodebuild -project Demo.xcodeproj -target Demo -configuration Release -derivedDataPath build -destination 'generic/platform=iOS' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+          xcodebuild -project Demo.xcodeproj -scheme Demo -configuration Release -derivedDataPath build -destination 'generic/platform=iOS' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
 
       - name: Package Demo.tipa
         run: |
