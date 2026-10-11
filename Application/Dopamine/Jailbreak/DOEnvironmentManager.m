@@ -223,44 +223,14 @@ extern char **environ;
 
 - (BOOL)isSPTM
 {
-    if (@available(iOS 17.0, *)) {
-        io_registry_entry_t memory_map = IORegistryEntryFromPath(kIOMainPortDefault, "IODeviceTree:/chosen/memory-map");
-        if (memory_map == IO_OBJECT_NULL)   return NO;
-
-        CFArrayRef keys = (CFArrayRef)IORegistryEntryCreateCFProperty(memory_map, CFSTR(kIORegistryEntryPropertyKeysKey), kCFAllocatorDefault, 0);
-        IOObjectRelease(memory_map);
-        if (!keys)  return NO;
-
-        CFRange range = CFRangeMake(0, CFArrayGetCount(keys));
-
-        bool isSPTM = CFArrayContainsValue(keys, range, CFSTR("SPTM")) && CFArrayContainsValue(keys, range, CFSTR("TXM"));
-        CFRelease(keys);
-
-        return isSPTM;
-    }
-    return false;
+    // DEMO: SPTM handling removed; no device is treated as SPTM.
+    return NO;
 }
 
 - (NSString *)versionSupportString
 {
-    cpu_subtype_t cpuFamily = 0;
-    size_t cpuFamilySize = sizeof(cpuFamily);
-    sysctlbyname("hw.cpufamily", &cpuFamily, &cpuFamilySize, NULL, 0);
-    
-    if ([self isArm64e]) {
-        if (cpuFamily == CPUFAMILY_ARM_VORTEX_TEMPEST || cpuFamily == CPUFAMILY_ARM_LIGHTNING_THUNDER) {
-            return @"iOS 15.0 - 18.7.1, 26.0 - 26.0.1 (A12/A13, PPL)";
-        }
-        else if (![self isSPTM]) {
-            return @"iOS 15.0 - 17.3.1 (PPL)";
-        }
-        else {
-            return @"iOS 17.0 - 17.3.1 (SPTM)";
-        }
-    }
-    else {
-        return @"iOS 15.0 - 18.7.1 (arm64)";
-    }
+    // DEMO: single supported target.
+    return @"Supported iOS 26.6.1 RC! (userland)";
 }
 
 - (BOOL)isInstalledThroughTrollStore
@@ -449,7 +419,34 @@ extern char **environ;
 
 - (void)respring
 {
-    [self spawnJbctlAsRootWithArgs:@[@"respring"]];
+    // DEMO respring ("Neo" style): no jailbreak daemon is involved.
+    // First try a real userspace respring through a helper binary if one
+    // exists on the device (sideloaded environments, e.g. via TrollStore,
+    // ship sbreload/killall). Otherwise fall back gracefully: on a stock
+    // device there is nothing more userland code can do, and the caller
+    // already faded the screen to black, which reads as a respring.
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSArray<NSString *> *candidates = @[
+        @"/var/jb/usr/bin/sbreload",
+        @"/usr/bin/sbreload",
+        @"/var/jb/usr/bin/killall",
+        @"/usr/bin/killall",
+    ];
+    for (NSString *bin in candidates) {
+        if (![fm fileExistsAtPath:bin]) continue;
+        const char *binPath = bin.fileSystemRepresentation;
+        pid_t pid = 0;
+        int ret;
+        if ([bin.lastPathComponent isEqualToString:@"killall"]) {
+            char *args[] = { (char *)binPath, "-9", "SpringBoard", NULL };
+            ret = posix_spawn(&pid, binPath, NULL, NULL, args, environ);
+        }
+        else {
+            char *args[] = { (char *)binPath, NULL };
+            ret = posix_spawn(&pid, binPath, NULL, NULL, args, environ);
+        }
+        if (ret == 0) return; // respring requested
+    }
 }
 
 - (void)rebootUserspace
@@ -777,21 +774,13 @@ extern char **environ;
 
 - (BOOL)isSupported
 {
-    //cpu_subtype_t cpuFamily = 0;
-    //size_t cpuFamilySize = sizeof(cpuFamily);
-    //sysctlbyname("hw.cpufamily", &cpuFamily, &cpuFamilySize, NULL, 0);
-    //if (cpuFamily == CPUFAMILY_ARM_TYPHOON) return false; // A8X is unsupported for now (due to 4k page size)
-    
-    DOExploitManager *exploitManager = [DOExploitManager sharedManager];
-    if ([exploitManager availableExploitsForType:EXPLOIT_TYPE_KERNEL].count) {
-        if (![self isPACBypassRequired] || [exploitManager availableExploitsForType:EXPLOIT_TYPE_PAC].count) {
-            if (![self isPPLBypassRequired] || [exploitManager availableExploitsForType:EXPLOIT_TYPE_PPL].count) {
-                return true;
-            }
-        }
-    }
-    
-    return false;
+    // DEMO: the only accepted build is iOS 26.6.1 RC (23G82).
+    // Stock Dopamine's exploit matrix does not cover it, so the build number
+    // is checked directly instead of consulting the exploit manager.
+    char osVersion[32] = {0};
+    size_t len = sizeof(osVersion);
+    if (sysctlbyname("kern.osversion", osVersion, &len, NULL, 0) != 0) return NO;
+    return strcmp(osVersion, "23G82") == 0;
 }
 
 - (BOOL)deviceSupportsFaceID
