@@ -47,6 +47,18 @@ int jbclient_platform_jbsettings_set_double(const char *key, double doubleValue)
     return -1;
 }
 
+int jbclient_platform_set_systemwide_domain_enabled(bool enabled)
+{
+    (void)enabled;
+    return -1;
+}
+
+int jbclient_platform_stage_jailbreak_update(const char *updateTar)
+{
+    (void)updateTar;
+    return -1;
+}
+
 int exec_cmd(const char *binary, ...) { (void)binary; return -1; }
 
 int exec_cmd_root(const char *binary, ...) { (void)binary; return -1; }

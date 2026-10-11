@@ -32,6 +32,8 @@ bool jbclient_jbsettings_get_bool(const char *key);
 double jbclient_jbsettings_get_double(const char *key);
 int jbclient_platform_jbsettings_set_bool(const char *key, bool boolValue);
 int jbclient_platform_jbsettings_set_double(const char *key, double doubleValue);
+int jbclient_platform_set_systemwide_domain_enabled(bool enabled);
+int jbclient_platform_stage_jailbreak_update(const char *updateTar);
 
 // exec_cmd stand-ins (signatures match libjailbreak's util.h)
 int exec_cmd(const char *binary, ...);

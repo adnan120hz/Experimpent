@@ -103,15 +103,8 @@ struct boomerang_info {
 
 void *boomerang_server(struct boomerang_info *info)
 {
-    while (true) {
-        xpc_object_t xdict = nil;
-        if (!xpc_pipe_receive(info->serverPort, &xdict)) {
-            if (jbserver_received_boomerang_xpc_message(&gBoomerangServer, xdict) == JBS_BOOMERANG_DONE) {
-                dispatch_semaphore_signal(info->boomerangDone);
-                break;
-            }
-        }
-    }
+    // DEMO: jailbreak/exploit logic removed; stubbed so nothing can run.
+    (void)info;
     return NULL;
 }
 
