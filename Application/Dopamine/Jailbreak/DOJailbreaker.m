@@ -180,7 +180,19 @@ void *boomerang_server(struct boomerang_info *info)
         DOLocalizedString(@"Checking For Duplicate Apps"),
     ];
     for (NSString *line in demoLogLines) {
-        [NSThread sleepForTimeInterval:(0.45 + (arc4random_uniform(400) / 1000.0))];
+        // DEMO: arbitrary rhythm — sometimes fast bursts, sometimes slow drags.
+        uint32_t roll = arc4random_uniform(100);
+        NSTimeInterval delay;
+        if (roll < 25) {
+            delay = 0.15 + (arc4random_uniform(200) / 1000.0);      // fast burst
+        } else if (roll < 70) {
+            delay = 0.4 + (arc4random_uniform(500) / 1000.0);       // normal
+        } else if (roll < 90) {
+            delay = 0.9 + (arc4random_uniform(600) / 1000.0);       // slow drag
+        } else {
+            delay = 1.5 + (arc4random_uniform(800) / 1000.0);       // dramatic pause
+        }
+        [NSThread sleepForTimeInterval:delay];
         [[DOUIManager sharedInstance] sendLog:line debug:NO];
     }
 
