@@ -1,0 +1,269 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		111111111111111111111111 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 222222222222222222222222 /* main.m */; };
+		111111111111111111111112 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 222222222222222222222224 /* AppDelegate.m */; };
+		111111111111111111111113 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 222222222222222222222226 /* MainViewController.m */; };
+		111111111111111111111114 /* CreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 222222222222222222222228 /* CreditsViewController.m */; };
+		111111111111111111111115 /* Respring.m in Sources */ = {isa = PBXBuildFile; fileRef = 22222222222222222222222A /* Respring.m */; };
+		111111111111111111111116 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22222222222222222222222B /* Assets.xcassets */; };
+		111111111111111111111117 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22222222222222222222222D /* WebKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		222222222222222222222221 /* Dopamine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dopamine.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		222222222222222222222222 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		222222222222222222222223 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		222222222222222222222224 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		222222222222222222222225 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		222222222222222222222226 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		222222222222222222222227 /* CreditsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreditsViewController.h; sourceTree = "<group>"; };
+		222222222222222222222228 /* CreditsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CreditsViewController.m; sourceTree = "<group>"; };
+		222222222222222222222229 /* Respring.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Respring.h; sourceTree = "<group>"; };
+		22222222222222222222222A /* Respring.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Respring.m; sourceTree = "<group>"; };
+		22222222222222222222222B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		22222222222222222222222C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		22222222222222222222222D /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		333333333333333333333331 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				111111111111111111111117 /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		444444444444444444444441 = {
+			isa = PBXGroup;
+			children = (
+				444444444444444444444442 /* Demo */,
+				444444444444444444444444 /* Frameworks */,
+				444444444444444444444443 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		444444444444444444444442 /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				222222222222222222222223 /* AppDelegate.h */,
+				222222222222222222222224 /* AppDelegate.m */,
+				22222222222222222222222B /* Assets.xcassets */,
+				222222222222222222222227 /* CreditsViewController.h */,
+				222222222222222222222228 /* CreditsViewController.m */,
+				22222222222222222222222C /* Info.plist */,
+				222222222222222222222222 /* main.m */,
+				222222222222222222222225 /* MainViewController.h */,
+				222222222222222222222226 /* MainViewController.m */,
+				222222222222222222222229 /* Respring.h */,
+				22222222222222222222222A /* Respring.m */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
+		444444444444444444444443 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				222222222222222222222221 /* Dopamine.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		444444444444444444444444 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				22222222222222222222222D /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		555555555555555555555551 /* Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 777777777777777777777772 /* Build configuration list for PBXNativeTarget "Demo" */;
+			buildPhases = (
+				333333333333333333333333 /* Sources */,
+				333333333333333333333331 /* Frameworks */,
+				333333333333333333333332 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Demo;
+			productName = Dopamine;
+			productReference = 222222222222222222222221 /* Dopamine.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		555555555555555555555552 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1510;
+				TargetAttributes = {
+					555555555555555555555551 = {
+						CreatedOnToolsVersion = 15.1;
+					};
+				};
+			};
+			buildConfigurationList = 777777777777777777777771 /* Build configuration list for PBXProject "Demo" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 444444444444444444444441;
+			productRefGroup = 444444444444444444444443 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				555555555555555555555551 /* Demo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		333333333333333333333332 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				111111111111111111111116 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		333333333333333333333333 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				111111111111111111111111 /* main.m in Sources */,
+				111111111111111111111112 /* AppDelegate.m in Sources */,
+				111111111111111111111113 /* MainViewController.m in Sources */,
+				111111111111111111111114 /* CreditsViewController.m in Sources */,
+				111111111111111111111115 /* Respring.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		666666666666666666666661 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		666666666666666666666662 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		666666666666666666666663 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGNING_REQUIRED = NO;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Demo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.adnan120hz.dopamine-demo;
+				PRODUCT_NAME = Dopamine;
+			};
+			name = Debug;
+		};
+		666666666666666666666664 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGNING_REQUIRED = NO;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Demo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.adnan120hz.dopamine-demo;
+				PRODUCT_NAME = Dopamine;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		777777777777777777777771 /* Build configuration list for PBXProject "Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				666666666666666666666661 /* Debug */,
+				666666666666666666666662 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		777777777777777777777772 /* Build configuration list for PBXNativeTarget "Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				666666666666666666666663 /* Debug */,
+				666666666666666666666664 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 555555555555555555555552 /* Project object */;
+}

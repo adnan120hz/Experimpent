@@ -1,0 +1,46 @@
+name: "Demo: build"
+
+on:
+  push:
+    branches:
+      - 3.x
+    paths:
+      - "Demo/**"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Xcode Setup
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Build Demo app
+        run: |
+          cd Demo
+          xcodebuild -project Demo.xcodeproj -target Demo -configuration Release -derivedDataPath build -destination 'generic/platform=iOS' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+
+      - name: Package Demo.tipa
+        run: |
+          cd Demo
+          rm -rf Payload Demo.tipa
+          mkdir Payload
+          cp -r "build/Build/Products/Release-iphoneos/Dopamine.app" Payload/
+          zip -qr Demo.tipa Payload
+          rm -rf Payload
+          ls -la Demo.tipa
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Demo-tipa
+          path: Demo/Demo.tipa
